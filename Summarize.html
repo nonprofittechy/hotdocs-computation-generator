@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+
+<script>
+// Prevent forms from submitting.
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      
+      window.addEventListener('load', preventFormSubmit);
+      
+      function handleFormSubmit(formObject) {
+        google.script.run.withSuccessHandler(updateComputation).processSummarizeForm(formObject);
+      }
+      
+      function updateComputation(computation) {
+        var div = document.getElementById('output');
+        div.innerHTML = computation;
+      }
+
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+        
+</head>
+<body>
+<form id="myForm" onsubmit="handleFormSubmit(this)" class="pure-form pure-form-stacked">
+  <input type="submit" value="Generate Computation"/>
+</form>
+<div id="output">
+  <p>
+  We'll create a HotDocs computation that creates a paragraph summary of
+  the two left-most columns in the current range or sheet. We'll skip row 1.
+  </p>
+  <p>
+  Column A should be a HotDocs boolean (TRUEFALSE) variable.
+  Column B should be a description of the variable (you might use the TITLE field
+  for this). <p>
+  E.g.:
+  <table>
+  <tr><td>DOC Answer TF</td><td>Answer Form</td></tr>
+  <tr><td>DOC Discovery TF</td><td>Discovery Form</td></tr>
+  <tr><td>DOC Admissions TF</td><td>Request for Admissions</td></tr>
+  </table>
+  <p>
+  At runtime, if <i>DOC Answer TF</i> and <i>DOC Admissions</i> are 
+  <b>TRUE</b> and <i>DOC Discovery TF</i> is <b>FALSE</b>, the computation
+  will result in "Answer Form; Request for Admissions."
+  <p>
+  <p>
+  The resulting computation can be included in a dialog element or
+  a document such as a cover letter.
+  </p>
+</div>
+</body>
+</html>

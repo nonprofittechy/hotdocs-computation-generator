@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+    <base target="_top">
+    <script>
+// Prevent forms from submitting.
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      
+      window.addEventListener('load', preventFormSubmit);
+      
+      function handleFormSubmit(formObject) {
+        google.script.run.withSuccessHandler(updateComputation).processBeforeAfterForm(formObject);
+      }
+      
+      function updateComputation(computation) {
+        var div = document.getElementById('output');
+        div.innerHTML = computation;
+      }
+
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+</head>
+  <body>
+  <div>
+  <p>Highlight the range (one column) you would like text added before/after to and click "Generate Computation".</p>
+  <form id="myForm" onsubmit="handleFormSubmit(this)" class="pure-form pure-form-stacked">
+  <fieldset>
+    <input type="submit" value="Generate Computation"/>
+
+   <!--<select name = "before_dropdown">
+    <option value="HIDE">HIDE</option>
+    <option value="SHOW">SHOW</option>
+    <option value="IF">IF</option>
+
+  </select> -->
+  
+  <label for="before">Before</label>  
+  <input name="before" id="before" placeholder="Text Before">
+  <label for="after">After</label>
+  <input name="after" id="after"  placeholder="Text After">   
+  </fieldset>
+  </form>
+  </div> 
+  <div id="output"></div>
+  </body>
+</html>
+
+

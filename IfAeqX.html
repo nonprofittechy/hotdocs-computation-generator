@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+
+<script>
+// Prevent forms from submitting.
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      
+      window.addEventListener('load', preventFormSubmit);
+      
+      function handleFormSubmit(formObject) {
+        google.script.run.withSuccessHandler(updateComputation).processIfAeqXForm(formObject);
+      }
+      
+      function updateComputation(computation) {
+        var div = document.getElementById('output');
+        div.innerHTML = computation;
+      }
+
+    </script>
+
+</head>
+<body>
+<form id="myForm" onsubmit="handleFormSubmit(this)" class="pure-form pure-form-stacked">
+  <input type="submit" value="Generate Computation"/>
+</form>
+<div id="output">
+  We'll create a HotDocs computation to check if column 'A' is equal to column 'B', and if so set column 'C' to TRUE. We'll skip row 1 and start the computations on row 2. 
+  Please note: you must match the type of Column A and B. 
+  Use quotes
+  to surround the value in column B if
+  if the value is text and column 'A' is of type text/multiple choice with text. Leave quotes off if both are numbers or true/false values.
+</div>
+</body>
+</html>

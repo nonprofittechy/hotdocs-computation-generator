@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+      
+<script>
+// Prevent forms from submitting.
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      
+      window.addEventListener('load', preventFormSubmit);
+      
+      function handleFormSubmit(formObject) {
+        google.script.run.withSuccessHandler(updateComputation).processRepeatForm(formObject);
+      }
+      
+      function updateComputation(computation) {
+        var div = document.getElementById('output');
+        div.innerHTML = computation;
+      }
+
+    </script>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+
+</head>
+<body>
+<form id="myForm" onsubmit="handleFormSubmit(this)" class="pure-form pure-form-stacked">
+<fieldset>
+<label for="skip">
+  <input id="skip" name="skip" type=checkbox value="skip"/>
+  Omit Column A
+  </label>
+  <input type="submit" value="Generate Computation"/>
+  </fieldset>
+</form>
+<div id="output">
+  We'll create a HotDocs computation that REPEATs each row in an array
+  that corresponds to the column.
+  The first row of the current sheet should be a header 
+  that contains the Hotdocs variable name.
+  The computation will start with row 2.
+</div>
+</body>
+</html>
